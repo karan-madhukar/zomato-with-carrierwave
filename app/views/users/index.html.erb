@@ -1,0 +1,45 @@
+<%= form_tag(users_path, method: :get) do |f|%> 
+  <div class="form-group row ml-5">
+    <div class="col-9">
+      <%= text_field_tag :q, params[:q], placeholder: "search restaurant by name, location, category and food", class: "form-control"%>
+    </div>
+    <div class="col-2">
+      <%= submit_tag "Search", class: "btn btn-primary"%>
+    </div>
+  </div>
+<% end %>
+
+<% if @restaurant.blank? %>
+  <h2 class="text-danger text-center">No Restaurant Found</h2>
+<% else %>
+  <% @restaurant.each do |restaurant|%>
+    <div class="row">
+      <a class="btn col-4 mb-4" href="/restaurants/<%= restaurant.id %>%">
+        <% if restaurant.image? %>
+          <div class="image">
+            <%= image_tag restaurant.image.url , class: "img-fluid" %>
+          </div>
+        <% else %>
+          <div class="image">
+            <%= image_tag "https://something.com/image.jpg" %>
+          </div>
+        <% end %>
+      </a>
+      <div class="card-deck mb-3 text-left col-8">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header">
+            <h3 class="text-danger"><%= restaurant.restaurant_name %></h3>
+          </div>
+          <div class="card-body">
+            <h4><%= restaurant.restaurant_category.name %></small></h4>
+            <ul class="list-unstyled text-muted mt-3 mb-4">
+              <li> <%= restaurant.address %></li>
+            </ul>
+          </div>  
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+

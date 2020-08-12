@@ -1,0 +1,61 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-info mb-3">
+  <div class="container">
+    <a class="navbar-brand" href="/">zomato </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse dropleft" id="navbarNavDropdown">
+      <% unless logged_in? %>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/signup">
+            <i class="fa fa-sign-in" aria-hidden="true"></i>
+               sign up <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/login">login</a>
+          </li>
+        </ul>
+      <% else %>
+        <% unless !current_user.admin? %>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/admin_dashboards">Dashboard <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user" aria-hidden="true"></i>
+              <%= current_user.Username %>  <%= "Admin" if current_user.admin? %>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <%= link_to "Profile", user_path(current_user), class: "nav-link"%>
+              <%= link_to "Logout", logout_path, class: "nav-link"%>
+            </div>
+          </li>
+        </ul> 
+        <% else %>
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/cart"><i class="fa fa-shopping-bag" aria-hidden="true"></i> Cart <span class="badge badge-primary"></i><%= get_cart.cart_items.count %></span></a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user" aria-hidden="true"></i>
+              <%= current_user.Username %> 
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <%= link_to "Profile", user_path(current_user), class: "nav-link"%>
+              <%= link_to "All Order", orders_path, class: "nav-link"%>
+              <%= link_to "Booked Tables", book_tables_path, class: "nav-link"%>
+              <%= link_to "Logout", logout_path, class: "nav-link"%>
+            </div>
+          </li>
+        </ul> 
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</nav>
